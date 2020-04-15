@@ -25,6 +25,7 @@ import de.rpgframework.ConfigContainer;
 import de.rpgframework.ConfigOption;
 import de.rpgframework.RPGFramework;
 import de.rpgframework.RPGFrameworkLoader;
+import de.rpgframework.ResourceI18N;
 import de.rpgframework.character.CharacterHandle;
 import de.rpgframework.character.CharacterProvider;
 import de.rpgframework.character.CharacterProviderLoader;
@@ -341,14 +342,13 @@ public class MainScreen extends ManagedScreen implements BabylonEventListener {
 				type = AlertType.CONFIRMATION;
 				break;
 			case 1: // WARN
+				type = AlertType.NOTIFICATION;
+				break;
 			case 2: // ERROR
 				type = AlertType.ERROR;
 				break;
 			}
-			String todo = String.format(
-					RES.getString("label.consultlogfile"),
-					System.getProperty("logdir")
-					);
+			String todo = ResourceI18N.format(RES,"label.consultlogfile",System.getProperty("logdir"));
 			if (getManager()!=null)
 				getManager().showAlertAndCall(type, RES.getString("label.internalError"), mess+"\n\n"+todo);
 			else {

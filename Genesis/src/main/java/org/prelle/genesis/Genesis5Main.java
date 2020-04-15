@@ -207,6 +207,7 @@ public class Genesis5Main extends Application {
 		logger.info("Running Genesis version "+System.getProperty(Constants.KEY_APPLICATION_VERSION));
 		logger.info("Running on "+System.getProperty("os.name")+ "/" + System.getProperty("os.version")+ "/" + System.getProperty("os.arch"));
 		logger.info("Running under "+System.getProperty("java.vendor")+" Java "+System.getProperty("java.version")+" with JavaFX "+System.getProperty("javafx.version"));
+		logger.info("Running with language "+Locale.getDefault().getLanguage());
 	}
 
 	//-------------------------------------------------------------------
@@ -399,7 +400,7 @@ public class Genesis5Main extends Application {
 				RPGFramework framework = RPGFrameworkLoader.getInstance();
 				framework.addBootStep(StandardBootSteps.UPDATE_PLUGINS);
 				framework.addBootStep(StandardBootSteps.ROLEPLAYING_SYSTEMS);
-//				framework.addBootStep(StandardBootSteps.PRODUCT_DATA);
+				framework.addBootStep(StandardBootSteps.PRODUCT_DATA);
 				framework.addBootStep(StandardBootSteps.CHARACTERS);
 				framework.addBootStep(new CheckForUpdates(logger));
 //				framework.addBootStep(new CheckReleaseNotes(logger, Genesis5Main.this));

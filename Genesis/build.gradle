@@ -2,7 +2,7 @@ plugins {
     id 'application'
     id 'eclipse'
     id 'org.openjfx.javafxplugin' version '0.0.8'
-    id 'org.beryx.jlink' version '2.17.0'
+    id 'org.beryx.jlink' version '2.17.6'
     id "de.undercouch.download" version "4.0.0"
 }
 
@@ -26,22 +26,23 @@ repositories {
 dependencies {
     implementation "org.apache.logging.log4j:log4j-api:2.11.0"
     implementation "org.apache.logging.log4j:log4j-core:2.11.0"
-    implementation "org.prelle:javafx-extensions:4.0.6"
+    implementation "org.prelle:javafx-extensions:4.0.7"
     implementation "de.rpgframework:rpgframework-core:4.0.0-SNAPSHOT"
     implementation "de.rpgframework:rpgframework-chars:4.0.0-SNAPSHOT"
     implementation "de.rpgframework:rpgframework-javafx:4.0.0-SNAPSHOT"
     implementation "de.rpgframework:rpgframework-products:4.0.0-SNAPSHOT"
-    runtimeOnly "org.prelle:simple-persist:3.1.2"
+    runtimeOnly "org.prelle:simple-persist:3.1.3"
     runtimeOnly "com.sun.mail:javax.mail:1.6.0"
     runtimeOnly "org.prelle.rpgframework:babylon-licensecheck:3.0.0-SNAPSHOT"
     runtimeOnly "de.rpgframework:itextpdf:4.2.0"
     runtimeOnly "org.apache.pdfbox:pdfbox:2.0.18"
     runtimeOnly "org.apache.pdfbox:fontbox:2.0.18"
     runtimeOnly "commons-logging:commons-logging:1.2" 
+    runtimeOnly "com.google.code.gson:gson:2.8.6"
 }
 
 javafx {
-    version = '14-ea+7'
+    version = '14'
     modules = ['javafx.controls', 'javafx.media', 'javafx.web', 'javafx.fxml']
 }
 
@@ -100,7 +101,7 @@ jlink {
 	secondaryLauncher {
         name = 'Genesis-HiDPI'
         mainClass = "org.prelle.genesis.Genesis5Main"
-        jvmArgs = ["-Dapplication.version=$version","-Dglass.win.uiScale=112dpi","-Dprofile=staging"]
+        jvmArgs = ["-Dapplication.version=$version","-Dglass.win.uiScale=112dpi","-Dprofile=release"]
     }
 	secondaryLauncher {
         name = 'Genesis-Staging'
@@ -112,7 +113,7 @@ jlink {
         mainClass = "org.prelle.genesis.Genesis5Main"
         jvmArgs = ["-Dapplication.version=$version","-Dglass.win.uiScale=112dpi","-Dprofile=staging"]
     }
-    forceMerge('log4j-api','itextpdf','org.apache.pdfbox')
+    forceMerge('log4j-api','itextpdf','org.apache.pdfbox','com.google.gson','babylon.license')
     jpackage {
         // Let the plugin detect the path to the JDK providing the jpackage tool by searching the locations indicated by:
         //  - the badass.jlink.jpackage.home system property
@@ -123,14 +124,14 @@ jlink {
         //   OR
         //
         // explicitly configure the below property:
-        jpackageHome = '/opt/jdk-14'
+        //jpackageHome = '/opt/jdk-14'
         //jpackageHome = "C:/Users/Stefan/workspaces/RPGFramework/Applications/Genesis/Genesis/build/download/jdk-14"
         //
         //   OR
         //
         // download and extract a JDK that contains the jpackage tool by setting the system property 'download.jpackage':
         //if(Boolean.getBoolean('download.jpackage')) {
-            jpackageHome = downloadJPackage()
+        //    jpackageHome = downloadJPackage()
         //}
 
         if(os.macOsX) {
@@ -148,6 +149,7 @@ jlink {
             	'--win-per-user-install', 
             	'--win-menu', 
             	'--win-menu-group','RPGFramework',
+            	'--win-dir-chooser',
             	'--win-shortcut', 
             	'--verbose',            	
             	'--win-upgrade-uuid', 'e641bb70-6cba-43bf-8070-c1894b6d46e9']
